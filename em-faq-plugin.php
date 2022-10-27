@@ -36,7 +36,8 @@ function em_faq_plugin_metabox() {
 function em_faq_plugin_metabox_callback($post) {
 
   $faqs = get_post_meta($post->ID, 'em_faqs', true);
-  // wp_die('<xmp>' . print_r($faqs, true) . '</xmp>');
+
+  if (empty($faqs)) $faqs = '{}';
 
   echo <<<HTML
     <script data-name="em-faqs">
@@ -62,8 +63,27 @@ function em_faq_plugin_metabox_callback($post) {
       .faq-container answer,
       .faq-container question {
         font-size: 18px;
-        margin-bottom: 10px;
-        padding: 10px;
+        
+        padding: 10px 10px 20px;
+        border-left: solid 5px;
+        border-right: solid 5px;
+        border-color: transparent;
+      }
+
+      .faq-container question {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .faq-container answer {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+
+
+      .faq-container answer:focus,
+      .faq-container question:focus {
+        outline: none;
+        border-color: #6a6;
       }
 
 
@@ -85,6 +105,14 @@ function em_faq_plugin_metabox_callback($post) {
       }
 
     </style>
+    <div>
+      <ul>
+        <li><strong>Navigate</strong> between FAQs, Questions and Answers with up and down arrow keys. Or click on the question or answer element.</li>
+        <li>Create <strong>new</strong> FAQ by click "+"; hitting enter when "answer" is focused or clicking below the FAQ list</li>
+        <li><strong>Delete</strong> a FAQ by erasing all text in both answer and question and hitting backspace; Use tune tools (6 points icon; hit tab key) and click cross.</li>
+        <li><strong>Move</strong> FAQ by tune tool and up and down arrow icons.</li>
+      </ul>
+    </div>
     <div id="em-faq-plugin-editor"></div>
     <input type="hidden" id="faqs" name="faqs">
   HTML;
@@ -92,6 +120,7 @@ function em_faq_plugin_metabox_callback($post) {
 
 
 add_action('save_post_post', 'em_faq_plugin_save', 10, 1);
+add_action('save_post_page', 'em_faq_plugin_save', 10, 1);
 function em_faq_plugin_save($post_id) {
 
   if (!isset($_POST['faqs'])) return;
