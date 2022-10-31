@@ -45,11 +45,12 @@ function em_faq_plugin_metabox_callback($post) {
     </script>
     <style>
       #em-faq-plugin-editor {
-        background-color: hsl(0, 2%, 96%);
+        background-color: hsl(220, 22%, 80%);
         padding: 10px;
+        border-radius: 5px;
       }
 
-      .faq-container {
+      .faq-plugin-container {
         display: flex;
         flex-direction: column;
         
@@ -57,50 +58,60 @@ function em_faq_plugin_metabox_callback($post) {
         border-radius: 5px;
 
         background-color: #fff;
-
+        border: solid 1px #aaa;
       }
 
-      .faq-container answer,
-      .faq-container question {
-        font-size: 18px;
+      .codex-editor__redactor .ce-block {
+        counter-increment: my-awesome-counter;
+      }
+
+      .faq-plugin-container answer,
+      .faq-plugin-container question {
+        font-size: 14px;
         
-        padding: 10px 10px 20px;
-        border-left: solid 5px;
-        border-right: solid 5px;
+        padding: 20px 10px;
+        border-left: dashed 2px;
+        border-right: dashed 2px;
         border-color: transparent;
       }
 
-      .faq-container question {
+      /* .faq-plugin-container question {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
       }
-      .faq-container answer {
+      .faq-plugin-container answer {
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-      }
+      } */
 
 
-      .faq-container answer:focus,
-      .faq-container question:focus {
+      .faq-plugin-container answer:focus,
+      .faq-plugin-container question:focus {
         outline: none;
         border-color: #6a6;
       }
 
-
-      .faq-container > answer::before,
-      .faq-container > question::before {
+      .faq-plugin-title::before {
+      /* .faq-plugin-container > answer::before, */
+      /* .faq-plugin-container > question::before { */
         display: block;
-        content: 'Question';
-        background-color: hsl(220, 70%, 70%);
-        font-size: 20px;
-        font-weight: 700;
+        content: '#' counter(my-awesome-counter) ' Question';
+        /* height: 40px; */
+        background-color: hsl(220, 10%, 90%);
+        font-size: 16px;
+        font-weight: 500;
         padding: 3px 5px;
-        color: #fff;
-        border-radius: 5px;
-        margin-bottom: 5px;
+        color: #333;
+        /* margin-bottom: 5px; */
       }
 
-      .faq-container > answer::before {
+
+      /* .faq-plugin-container > answer::before { */
+      .faq-plugin-question-title::before {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+        .faq-plugin-answer-title::before {
         content: 'Answer';
       }
 
@@ -111,6 +122,14 @@ function em_faq_plugin_metabox_callback($post) {
         <li>Create <strong>new</strong> FAQ by click "+"; hitting enter when "answer" is focused or clicking below the FAQ list</li>
         <li><strong>Delete</strong> a FAQ by erasing all text in both answer and question and hitting backspace; Use tune tools (6 points icon; hit tab key) and click cross.</li>
         <li><strong>Move</strong> FAQ by tune tool and up and down arrow icons.</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>Arrow up/down</li>
+        <li>Backspace</li>
+        <li>Click</li>
+        <li>Enter</li>
       </ul>
     </div>
     <div id="em-faq-plugin-editor"></div>

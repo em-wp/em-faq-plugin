@@ -23,7 +23,11 @@
 
     createTag() {
       const div = document.createElement('div');
-      div.classList.add('faq-container');
+      div.classList.add('faq-plugin-container');
+
+      const qTitle = document.createElement('div');
+      qTitle.classList.add('faq-plugin-title', 'faq-plugin-question-title');
+      div.appendChild(qTitle);
 
       const question = document.createElement('question');
       question.setAttribute('contentEditable', 'true');
@@ -36,6 +40,11 @@
       this._answer = answer;
 
       div.appendChild(question);
+
+      const aTitle = document.createElement('div');
+      aTitle.classList.add('faq-plugin-title', 'faq-plugin-answer-title');
+      div.appendChild(aTitle);
+
       div.appendChild(answer);
 
       return div;
@@ -56,8 +65,9 @@
 
   const editor = new EditorJS({
     holder: 'em-faq-plugin-editor',
+    inlineToolbar: true,
     tools: {
-      faq: FAQ,
+      faq: { class: FAQ, inlineToolbar: true },
       paragraph: Text,
     },
     defaultBlock: 'faq',
