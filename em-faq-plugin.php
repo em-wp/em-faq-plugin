@@ -75,14 +75,6 @@ function em_faq_plugin_metabox_callback($post) {
         border-color: transparent;
       }
 
-      /* .faq-plugin-container question {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-      }
-      .faq-plugin-container answer {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-      } */
 
 
       .faq-plugin-container answer:focus,
@@ -92,27 +84,27 @@ function em_faq_plugin_metabox_callback($post) {
       }
 
       .faq-plugin-title::before {
-      /* .faq-plugin-container > answer::before, */
-      /* .faq-plugin-container > question::before { */
         display: block;
         content: '#' counter(my-awesome-counter) ' Question';
-        /* height: 40px; */
         background-color: hsl(220, 10%, 90%);
         font-size: 16px;
         font-weight: 500;
         padding: 3px 5px;
         color: #333;
-        /* margin-bottom: 5px; */
       }
 
 
-      /* .faq-plugin-container > answer::before { */
       .faq-plugin-question-title::before {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
       }
         .faq-plugin-answer-title::before {
         content: 'Answer';
+      }
+
+      .faq-plugin-li-helper {
+        display: flex;
+        flex-gap: 20px;
       }
 
     </style>
@@ -126,10 +118,10 @@ function em_faq_plugin_metabox_callback($post) {
     </div>
     <div>
       <ul>
-        <li>Arrow up/down</li>
-        <li>Backspace</li>
-        <li>Click</li>
-        <li>Enter</li>
+        <li class="faq-plugin-li-helper"><strong>Arrow up/down</strong><span>Navigate between Question, Answer and FAQs</li>
+        <li><strong>Backspace</strong></li>
+        <li><strong>Mouse click</strong></li>
+        <li><strong>Enter</strong></li>
       </ul>
     </div>
     <div id="em-faq-plugin-editor"></div>

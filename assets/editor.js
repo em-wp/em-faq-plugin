@@ -8,10 +8,13 @@
       };
     }
 
-    constructor({ data }) {
+    constructor({ data, api }) {
+      this._api = api;
       this._data = { answer: '', question: '' };
       this._element = this.createTag();
       this.data = data;
+
+      // this._api.listeners.on(this._element);
     }
 
     set data(data) {
