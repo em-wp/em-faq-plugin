@@ -1,6 +1,7 @@
 <?php
 
 require_once 'inc/em-faq-plugin-shortcode.php';
+require_once 'inc/em-faq-plugin-updater.php';
 
 /**
  * Plugin Name: FAQ by EM.
