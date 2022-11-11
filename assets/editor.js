@@ -80,10 +80,10 @@
   const form = document.querySelector('form#post');
   const faqs = document.querySelector('input#faqs');
   form.addEventListener('submit', (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     editor.save().then((outputData) => {
       faqs.value = JSON.stringify(outputData);
-      form.submit();
+      // form.submit();
     });
   });
 })();
