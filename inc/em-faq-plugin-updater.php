@@ -12,9 +12,9 @@ if (!class_exists('mishaUpdateChecker')) {
 
     public function __construct() {
       $this->plugin_slug = 'em-faq-plugin';
-      $this->version = '0.0.1';
+      $this->version = '1.0.1';
       $this->cache_key = 'misha_custom_upd';
-      $this->cache_allowed = false;
+      $this->cache_allowed = true;
 
       add_filter('plugins_api', array($this, 'info'), 20, 3);
       add_filter('site_transient_update_plugins', array($this, 'update'));
