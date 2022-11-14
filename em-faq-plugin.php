@@ -46,7 +46,7 @@ function em_faq_plugin_metabox_callback($post) {
     </script>
     <style>
       #em-faq-plugin-editor {
-        background-color: hsl(220, 22%, 80%);
+        background-color: hsl(220, 22%, 90%);
         padding: 10px;
         border-radius: 5px;
       }
@@ -103,27 +103,56 @@ function em_faq_plugin_metabox_callback($post) {
         content: 'Answer';
       }
 
+      .faq-plugin-helper-container {
+        margin-bottom: 20px;
+      }
+
+      .faq-plugin-ul-helper {
+        margin: 3px 0 10px;
+      }
+
       .faq-plugin-li-helper {
         display: flex;
-        flex-gap: 20px;
+
+        border: solid 1px #eee;
+        border-radius: 3px;
+        padding: 4px;
+        margin-bottom: 10px;
+      }
+
+      .faq-plugin-li-helper > span:first-child {
+        width: 150px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .faq-plugin-h4-helper {
+        margin: 0;
+      }
+
+      .faq-plugin-hidden {
+        display: none;
       }
 
     </style>
-    <div>
-      <ul>
-        <li><strong>Navigate</strong> between FAQs, Questions and Answers with up and down arrow keys. Or click on the question or answer element.</li>
-        <li>Create <strong>new</strong> FAQ by click "+"; hitting enter when "answer" is focused or clicking below the FAQ list</li>
-        <li><strong>Delete</strong> a FAQ by erasing all text in both answer and question and hitting backspace; Use tune tools (6 points icon; hit tab key) and click cross.</li>
-        <li><strong>Move</strong> FAQ by tune tool and up and down arrow icons.</li>
+    <div class="faq-plugin-helper-container">
+      <button onclick="this.parentNode.lastElementChild.classList.toggle('faq-plugin-hidden');this.innerHTML = this.innerHTML === 'Show explaination' ? 'Hide explaination' : 'Show explaination'" class="button button-secondary" type="button">Show explaination</button>
+      <div class="faq-plugin-hidden">
+      <ul class="faq-plugin-ul-helper">
+        <li class="faq-plugin-li-helper"><span>Navigate</span> <span>between FAQs, Questions and Answers with up and down arrow keys. Or click on the question or answer element.</span></li>
+        <li class="faq-plugin-li-helper"><span>Create new FAQ</span> <span> by clicking "+" on the left side;<br>Enter key in "answer" section or clicking below the FAQ list.</span></li>
+        <li class="faq-plugin-li-helper"><span>Delete a FAQ</span> <span> by erasing all text in both answer and question and hitting backspace;<br>Use tune tools (6 points icon or tab key) and click cross.</span></li>
+        <li class="faq-plugin-li-helper"><span>Move FAQ</span> <span> by tune tool and up and down arrow icons.</span></li>
+        <li class="faq-plugin-li-helper"><span>Add link/bold/italic</span> <span>by marking text and popup will show with the options.</span></li>
+      </ul>
+      <h4 class="faq-plugin-h4-helper">Keys:</h4>
+      <ul class="faq-plugin-ul-helper">
+        <li class="faq-plugin-li-helper"><span>Arrow up/down</span> <span>Navigate between Question, Answer and FAQs</span></li>
+        <li class="faq-plugin-li-helper"><span>Backspace</span> <span>Deletes FAQ if FAQ is empty.</span></li>
+        <li class="faq-plugin-li-helper"><span>Mouse click</span> <span>Selects question or answer or creates a new FAQ.</span></li>
+        <li class="faq-plugin-li-helper"><span>Enter</span> <span>Creates a new FAQ.</span></li>
       </ul>
     </div>
-    <div>
-      <ul>
-        <li class="faq-plugin-li-helper"><strong>Arrow up/down</strong><span>Navigate between Question, Answer and FAQs</li>
-        <li><strong>Backspace</strong></li>
-        <li><strong>Mouse click</strong></li>
-        <li><strong>Enter</strong></li>
-      </ul>
     </div>
     <div id="em-faq-plugin-editor"></div>
     <input type="hidden" id="faqs" name="faqs">

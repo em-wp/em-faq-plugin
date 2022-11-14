@@ -2,7 +2,7 @@
 
 
 add_action('init', function () {
-  add_shortcode('faq', 'em_faq_plugin_shortcode');
+  add_shortcode(shortcode_exists('faq') ? 'em-faq' : 'faq', 'em_faq_plugin_shortcode');
 });
 
 function em_faq_plugin_shortcode($atts = []) {
@@ -17,6 +17,9 @@ function em_faq_plugin_shortcode($atts = []) {
 
   $css_one = <<<CSS
     ul.em-faq {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
       padding: 0;
       list-style: none;
     }
@@ -32,11 +35,12 @@ function em_faq_plugin_shortcode($atts = []) {
       margin: 0;
       font-weight: 400;
       font-size: 16px;
-      border-bottom: solid 1px black;
     }
 
     div.em-faqs {
-      padding-left: 18px;
+      padding: 5px 15px;
+      background-color: hsl(120, 3%, 93%);
+      border-radius: 3px;
     }
   CSS;
 
