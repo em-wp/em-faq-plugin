@@ -30,7 +30,7 @@ function em_faq_plugin_shortcode($atts = []) {
       cursor: pointer;
     }
 
-    h6.em-faqs {
+    h3.em-faqs {
       display: inline-block;
       margin: 0;
       font-weight: 400;
@@ -65,7 +65,7 @@ function em_faq_plugin_shortcode($atts = []) {
     $faq_list[] = <<<HTML
                     <li class="em-faqs">
                       <details class="em-faqs">
-                        <summary class="em-faqs"><h6 class="em-faqs">{$faq['data']['question']}</h6></summary>
+                        <summary class="em-faqs"><h3 class="em-faqs">{$faq['data']['question']}</h3></summary>
                         <div class="em-faqs">{$faq['data']['answer']}</div>
                       </details>
                     </li>
