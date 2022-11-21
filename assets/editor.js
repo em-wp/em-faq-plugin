@@ -8,6 +8,39 @@
       };
     }
 
+    static get sanitize() {
+      return {
+        div: false,
+        h1: false,
+        h2: false,
+        h3: false,
+        p: true,
+        ul: true,
+        li: true,
+        b: true,
+        img: true,
+      };
+    }
+
+    static get pasteConfig() {
+      return {
+        tags: [
+          'H1',
+          'H2',
+          'H3',
+          'H4',
+          'H5',
+          'H6',
+          'P',
+          'STRONG',
+          'I',
+          'UL',
+          'LI',
+          'DIV',
+        ],
+      };
+    }
+
     constructor({ data, api }) {
       this._api = api;
       this._data = { answer: '', question: '' };
@@ -49,12 +82,25 @@
       div.appendChild(aTitle);
 
       div.appendChild(answer);
-
+      // console.log(div);
       return div;
     }
 
+    onPaste(event) {
+      console.log(event);
+      if (event.type !== 'tag') return;
+
+      // if (event.detail.data.tagName === 'UL') {
+      this._answer.appendChild(event.detail.data);
+      // }
+      // if (event.detail)
+      // switch (event.detail)
+      // console.log(event);
+      // console.log(event.detail.data.tagName);
+    }
+
     render() {
-      console.log(this._element);
+      // console.log(this._element);
       return this._element;
     }
 
@@ -75,6 +121,10 @@
     },
     defaultBlock: 'faq',
     data: faqsData,
+    onChange: (api, event) => {
+      event.preventDefault();
+      console.log(event);
+    },
   });
 
   const form = document.querySelector('form#post');

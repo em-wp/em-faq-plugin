@@ -16,7 +16,7 @@ function em_faq_plugin_init() {
 
   wp_register_script('editor-js', 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest', [], false, true);
 
-  wp_register_script('editor-js-config', plugin_dir_url(__FILE__) . 'assets/editor.js', ['editor-js'], false, true);
+  wp_register_script('editor-js-config', plugin_dir_url(__FILE__) . 'assets/editor.js', ['editor-js'], '1.0.27', true);
 }
 
 add_action('add_meta_boxes_page', 'em_faq_plugin_metabox');
@@ -24,6 +24,15 @@ add_action('add_meta_boxes_post', 'em_faq_plugin_metabox');
 function em_faq_plugin_metabox() {
 
   wp_enqueue_script('editor-js-config');
+
+  add_meta_box(
+    'em-faq-plugin-new',
+    'FAQ new',
+    'em_faq_plugin_metabox_callback_new',
+    null,
+    'advanced',
+    'high'
+  );
 
   add_meta_box(
     'em-faq-plugin',
@@ -34,6 +43,13 @@ function em_faq_plugin_metabox() {
     'high'
   );
 }
+
+function em_faq_plugin_metabox_callback_new($post) {
+  echo <<<HTML
+    <div contenteditable="true">hi</div>
+  HTML;
+}
+
 function em_faq_plugin_metabox_callback($post) {
 
   $faqs = get_post_meta($post->ID, 'em_faqs', true);
