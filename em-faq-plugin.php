@@ -14,10 +14,31 @@ require_once 'inc/em-faq-plugin-updater.php';
 add_action('plugins_loaded', 'em_faq_plugin_init');
 function em_faq_plugin_init() {
 
-  wp_register_script('editor-js', 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest', [], false, true);
+  // wp_register_script('editor-js', 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest', [], false, true);
 
-  wp_register_script('editor-js-config', plugin_dir_url(__FILE__) . 'assets/editor.js', ['editor-js'], '1.0.27', true);
+  wp_register_script('faq-tinymce', plugin_dir_url(__FILE__) . 'assets/tinymce.js', [], false, true);
+
+  // wp_register_script('editor-js-config', plugin_dir_url(__FILE__) . 'assets/editor.js', ['editor-js'], '1.0.27', true);
 }
+
+add_action('admin_enqueue_scripts', function ($page) {
+  if ($page !== 'post.php') return;
+  wp_enqueue_editor();
+  wp_enqueue_script('faq-tinymce');
+});
+
+// add_action('admin_footer', function () {
+//   echo <<<SCRIPT
+//       <script data-name="tinymce-script">
+//       console.log(wp)
+//       setTimeout(() => {
+//         wp.editor.initialize("em-faq-container")
+
+//       }, 1000);
+//     </script>
+//   SCRIPT;
+// }, 999999999999999999999999, 1);
+
 
 add_action('add_meta_boxes_page', 'em_faq_plugin_metabox');
 add_action('add_meta_boxes_post', 'em_faq_plugin_metabox');
@@ -34,20 +55,89 @@ function em_faq_plugin_metabox() {
     'high'
   );
 
-  add_meta_box(
-    'em-faq-plugin',
-    'FAQ',
-    'em_faq_plugin_metabox_callback',
-    null,
-    'advanced',
-    'high'
-  );
+  // add_meta_box(
+  //   'em-faq-plugin',
+  //   'FAQ',
+  //   'em_faq_plugin_metabox_callback',
+  //   null,
+  //   'advanced',
+  //   'high'
+  // );
 }
 
 function em_faq_plugin_metabox_callback_new($post) {
-  echo <<<HTML
-    <div contenteditable="true">hi</div>
-  HTML;
+
+  $faq = get_post_meta($post->ID, 'faq', true);
+?>
+  <div>
+    <ul class="em-faq-meta">
+      <?php for ($i = 0; $i < 2; $i++) : ?>
+        <li data-faq="<?= $i ?>" class="em-faq-container">
+          <div class="em-faq-question">
+            <h4 class="em-faq-title">Question</h4>
+            <?php wp_editor(
+              $faq[$i]['question'],
+              'em-faq-question-' . $i,
+              [
+                'media_buttons' => false,
+                'textarea_rows' => 1,
+                'tinymce' => [
+                  'toolbar1' => 'bold,italic,underline,link,unlink,charmap'
+                ]
+              ]
+            ) ?>
+          </div>
+          <div class="em-faq-answer">
+            <h4 class="em-faq-title">Answer</h4>
+            <?php wp_editor(
+              $faq[$i]['answer'],
+              'em-faq-answer-' . $i,
+              [
+                'media_buttons' => false,
+                'textarea_rows' => 1,
+                'tinymce' => [
+                  'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,blockquote,link,unlink'
+                ]
+              ]
+            ) ?>
+          </div>
+          <button onclick="removeFAQ(this)" type="button" class="button button-secondary" style="margin-top: 10px">Remove FAQ</button>
+        </li>
+      <?php endfor; ?>
+    </ul>
+    <button onclick="addFAQ(this)" type="button" class="button button-primary">Add FAQ</button>
+  </div>
+  <style>
+    .em-faq-container {
+      counter-increment: my-awesome-counter;
+    }
+
+    .em-faq-container {
+      padding: 0 20px 20px;
+      background-color: hsl(60, 15%, 95%);
+      margin-bottom: 40px;
+    }
+
+    .em-faq-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      position: relative;
+      top: 30px;
+      display: inline-block;
+    }
+
+    .em-faq-question::before {
+      position: relative;
+      top: 30px;
+      content: '#'counter(my-awesome-counter) ' ';
+      font-size: 16px;
+      font-weight: 500;
+      padding: 3px 5px;
+      color: #333;
+    }
+  </style>
+<?php
 }
 
 function em_faq_plugin_metabox_callback($post) {
