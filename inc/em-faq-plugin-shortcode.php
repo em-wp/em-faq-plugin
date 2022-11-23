@@ -8,11 +8,12 @@ add_action('init', function () {
 function em_faq_plugin_shortcode($atts = []) {
   global $post;
 
-  $faqs = get_post_meta($post->ID, 'em_faqs', true);
-  if (empty($faqs)) return;
+  // $faqs = get_post_meta($post->ID, 'em_faqs', true);
+  // if (empty($faqs)) return;
+  // $faqs = json_decode($faqs, true);
+  // if (empty($faqs['blocks'])) return;
 
-  $faqs = json_decode($faqs, true);
-  if (empty($faqs['blocks'])) return;
+  $faqs = get_post_meta($post->ID, 'emfaqs', true);
 
 
   $css_one = <<<CSS
@@ -49,24 +50,25 @@ function em_faq_plugin_shortcode($atts = []) {
 
   $faq_json = [];
 
-
-  foreach ($faqs['blocks'] as $faq) {
-    if (empty($faq['data']) || empty($faq['data']['question']) || empty($faq['data']['answer'])) continue;
+  foreach ($faqs as $faq) {
+    if (empty($faq['question']) || empty($faq['answer'])) continue;
+    // foreach ($faqs['blocks'] as $faq) {
+    // if (empty($faq['data']) || empty($faq['data']['question']) || empty($faq['data']['answer'])) continue;
 
     $faq_json[] = [
       '@type' => 'Question',
-      'name' => $faq['data']['question'],
+      'name' => $faq['question'],
       'acceptedAnswer' => [
         '@type' => 'answer',
-        'text' => $faq['data']['answer']
+        'text' => $faq['answer']
       ]
     ];
 
     $faq_list[] = <<<HTML
                     <li class="em-faqs">
                       <details class="em-faqs">
-                        <summary class="em-faqs"><h3 class="em-faqs">{$faq['data']['question']}</h3></summary>
-                        <div class="em-faqs">{$faq['data']['answer']}</div>
+                        <summary class="em-faqs"><h3 class="em-faqs">{$faq['question']}</h3></summary>
+                        <div class="em-faqs">{$faq['answer']}</div>
                       </details>
                     </li>
                   HTML;

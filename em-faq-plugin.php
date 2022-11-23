@@ -67,11 +67,36 @@ function em_faq_plugin_metabox() {
 
 function em_faq_plugin_metabox_callback_new($post) {
 
-  $faq = get_post_meta($post->ID, 'faq', true);
+  $faq = get_post_meta($post->ID, 'emfaqs', true);
+  if (!$faq) $faq = [];
+
+  /* OLD FAQ DATA (TEMP) */
+  $old_faq = [];
+  $faqs = get_post_meta($post->ID, 'em_faqs', true);
+  if ($faqs) {
+    $faqs = json_decode($faqs, true);
+    if (!empty($faqs['blocks'])) {
+      foreach ($faqs['blocks'] as $f) {
+        $old_faq[] = [
+          'question' => $f['data']['question'] ?? '',
+          'answer' => $f['data']['answer'] ?? ''
+        ];
+      }
+    }
+  }
+
 ?>
   <div>
+    <button onclick="this.parentNode.lastElementChild.classList.toggle('em-faq-hidden')" type="button" class="button button-secondary">Show old faq data (temp)</button>
+    <div class="em-faq-hidden">
+      <pre><?php print_r($old_faq) ?></pre>
+    </div>
+  </div>
+  <input type="hidden" name="emfaqs" value="1">
+  <div>
     <ul class="em-faq-meta">
-      <?php for ($i = 0; $i < 2; $i++) : ?>
+      <?php for ($i = 0; $i < sizeof($faq); $i++) :
+        if (empty($faq[$i]['question']) && empty($faq[$i]['answer'])) continue; ?>
         <li data-faq="<?= $i ?>" class="em-faq-container">
           <div class="em-faq-question">
             <h4 class="em-faq-title">Question</h4>
@@ -82,7 +107,8 @@ function em_faq_plugin_metabox_callback_new($post) {
                 'media_buttons' => false,
                 'textarea_rows' => 1,
                 'tinymce' => [
-                  'toolbar1' => 'bold,italic,underline,link,unlink,charmap'
+                  'toolbar1' => 'bold,italic,underline,link,unlink,charmap',
+                  'height' => '50px'
                 ]
               ]
             ) ?>
@@ -109,7 +135,7 @@ function em_faq_plugin_metabox_callback_new($post) {
   </div>
   <style>
     .em-faq-container {
-      counter-increment: my-awesome-counter;
+      counter-increment: faq-counter;
     }
 
     .em-faq-container {
@@ -130,18 +156,26 @@ function em_faq_plugin_metabox_callback_new($post) {
     .em-faq-question::before {
       position: relative;
       top: 30px;
-      content: '#'counter(my-awesome-counter) ' ';
+      content: '#'counter(faq-counter) ' ';
       font-size: 16px;
       font-weight: 500;
       padding: 3px 5px;
       color: #333;
     }
+
+    .em-faq-question iframe {
+      height: 60px !important;
+    }
+
+    .em-faq-hidden {
+      display: none;
+    }
   </style>
 <?php
 }
 
-function em_faq_plugin_metabox_callback($post) {
-
+function em_faq_plugin_metabox_callback_OLD($post) {
+  return;
   $faqs = get_post_meta($post->ID, 'em_faqs', true);
 
   if (empty($faqs)) $faqs = '{}';
@@ -270,11 +304,26 @@ add_action('save_post_post', 'em_faq_plugin_save', 10, 1);
 add_action('save_post_page', 'em_faq_plugin_save', 10, 1);
 function em_faq_plugin_save($post_id) {
 
-  if (!isset($_POST['faqs'])) return;
+  if (!isset($_POST['emfaqs'])) return;
 
-  $faqs = $_POST['faqs'];
+  $faq = [];
 
-  update_post_meta($post_id, 'em_faqs', $faqs);
+  for ($i = 0; $i < 100; $i++) {
+    if (!isset($_POST['em-faq-question-' . $i]) && !isset($_POST['em-faq-answer-' . $i]))
+      continue;
+
+    $faq[] = [
+      'question' => $_POST['em-faq-question-' . $i] ?? '',
+      'answer' => $_POST['em-faq-answer-' . $i] ?? ''
+    ];
+  }
+
+  update_post_meta($post_id, 'emfaqs', $faq);
+
+  // wp_die('<xmp>' . print_r($faq, true) . '</xmp>');
+  // $faqs = $_POST['faqs'];
+
+  // update_post_meta($post_id, 'em_faqs', $faqs);
 
   // $faqs = stripslashes($faqs);
   // $faqs = json_decode($faqs);
