@@ -22,11 +22,11 @@ const addFAQ = (element) => {
 
     newFAQ.innerHTML = `
     <div class="em-faq-question">
-      <h4 class="em-faq-title">Question</h4>
+      <h4 class="em-faq-title em-faq-title--new">Question</h4>
       <div id="em-faq-question-${FAQindex}"></div>
     </div>
     <div class="em-faq-answer">
-      <h4 class="em-faq-title">Answer</h4>
+      <h4 class="em-faq-title em-faq-title--new">Answer</h4>
       <div id="em-faq-answer-${FAQindex}"></div>
     </div>
     <button style="margin-top: 10px" class="button button-secondary" type="button" onclick="removeFAQ(this)">Remove FAQ</button>
@@ -34,16 +34,19 @@ const addFAQ = (element) => {
 
     container.appendChild(newFAQ);
     wp.editor.initialize('em-faq-question-' + FAQindex, {
-      tinymce: { toolbar1: 'bold,italic,underline,link,unlink,charmap' },
-      quicktags: true,
+      tinymce: {
+        toolbar1:
+          'formatselect,bold,italic,underline,link,unlink,charmap,forecolor,backcolor',
+      },
+      // quicktags: true,
     });
     wp.editor.initialize('em-faq-answer-' + FAQindex, {
       tinymce: {
         toolbar1:
-          'formatselect,bold,italic,underline,bullist,numlist,blockquote,link,unlink',
+          'formatselect,bold,italic,underline,bullist,numlist,blockquote,link,unlink,forecolor,backcolor',
         height: '150px',
       },
-      quicktags: true,
+      // quicktags: true,
     });
   } catch (error) {
     console.log(error);
