@@ -7,7 +7,7 @@ require_once 'inc/em-faq-plugin-updater.php';
  * Plugin Name: FAQ by EM.
  * Description: Adds FAQ editor per page and shortcode to insert said FAQ on the page.
  * Author: Effektiv Markedsføring
- * Version: 2.0.0
+ * Version: 2.0.1
  */
 
 
@@ -16,7 +16,7 @@ function em_faq_plugin_init() {
 
   // wp_register_script('editor-js', 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest', [], false, true);
 
-  wp_register_script('faq-tinymce', plugin_dir_url(__FILE__) . 'assets/tinymce.js', [], false, true);
+  wp_register_script('faq-tinymce', plugin_dir_url(__FILE__) . 'assets/tinymce.js', [], '1.0.1', true);
 
   // wp_register_script('editor-js-config', plugin_dir_url(__FILE__) . 'assets/editor.js', ['editor-js'], '1.0.27', true);
 }
@@ -71,27 +71,21 @@ function em_faq_plugin_metabox_callback_new($post) {
   if (!$faq) $faq = [];
 
   /* OLD FAQ DATA (TEMP) */
-  $old_faq = [];
-  $faqs = get_post_meta($post->ID, 'em_faqs', true);
-  if ($faqs) {
-    $faqs = json_decode($faqs, true);
-    if (!empty($faqs['blocks'])) {
-      foreach ($faqs['blocks'] as $f) {
-        $old_faq[] = [
-          'question' => $f['data']['question'] ?? '',
-          'answer' => $f['data']['answer'] ?? ''
-        ];
-      }
-    }
-  }
+  // $old_faq = [];
+  // $faqs = get_post_meta($post->ID, 'em_faqs', true);
+  // if ($faqs) {
+  //   $faqs = json_decode($faqs, true);
+  //   if (!empty($faqs['blocks'])) {
+  //     foreach ($faqs['blocks'] as $f) {
+  //       $old_faq[] = [
+  //         'question' => $f['data']['question'] ?? '',
+  //         'answer' => $f['data']['answer'] ?? ''
+  //       ];
+  //     }
+  //   }
+  // }
 
 ?>
-  <div>
-    <button onclick="this.parentNode.lastElementChild.classList.toggle('em-faq-hidden')" type="button" class="button button-secondary">Show old faq data (temp)</button>
-    <div class="em-faq-hidden">
-      <pre><?php print_r($old_faq) ?></pre>
-    </div>
-  </div>
   <input type="hidden" name="emfaqs" value="1">
   <div>
     <ul class="em-faq-meta">
@@ -155,7 +149,9 @@ function em_faq_plugin_metabox_callback_new($post) {
 
     .em-faq-title--new {
       top: 0;
+      padding: 10px 0;
     }
+
 
     .em-faq-question .em-faq-title::before {
       /* position: relative; */
