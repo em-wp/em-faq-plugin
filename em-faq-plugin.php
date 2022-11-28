@@ -107,7 +107,7 @@ function em_faq_plugin_metabox_callback_new($post) {
                 'media_buttons' => false,
                 'textarea_rows' => 1,
                 'tinymce' => [
-                  'toolbar1' => 'bold,italic,underline,link,unlink,charmap',
+                  'toolbar1' => 'formatselect,bold,italic,underline,link,unlink,charmap,forecolor,backcolor',
                   'height' => '50px'
                 ]
               ]
@@ -122,7 +122,7 @@ function em_faq_plugin_metabox_callback_new($post) {
                 'media_buttons' => false,
                 'textarea_rows' => 1,
                 'tinymce' => [
-                  'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,blockquote,link,unlink'
+                  'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,blockquote,link,unlink,forecolor,backcolor'
                 ]
               ]
             ) ?>
@@ -153,15 +153,20 @@ function em_faq_plugin_metabox_callback_new($post) {
       display: inline-block;
     }
 
-    .em-faq-question::before {
-      position: relative;
-      top: 30px;
+    .em-faq-title--new {
+      top: 0;
+    }
+
+    .em-faq-question .em-faq-title::before {
+      /* position: relative; */
+      /* top: 30px; */
       content: '#'counter(faq-counter) ' ';
       font-size: 16px;
       font-weight: 500;
       padding: 3px 5px;
       color: #333;
     }
+
 
     .em-faq-question iframe {
       height: 60px !important;
