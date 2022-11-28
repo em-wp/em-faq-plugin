@@ -43,6 +43,10 @@ function em_faq_plugin_shortcode($atts = []) {
       background-color: hsl(120, 3%, 93%);
       border-radius: 3px;
     }
+
+    div.em-faqs > p:last-child {
+      margin: 0;
+    }
   CSS;
 
 

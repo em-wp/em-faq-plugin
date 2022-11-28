@@ -7,7 +7,7 @@ require_once 'inc/em-faq-plugin-updater.php';
  * Plugin Name: FAQ by EM.
  * Description: Adds FAQ editor per page and shortcode to insert said FAQ on the page.
  * Author: Effektiv Markedsføring
- * Version: 1.0.2
+ * Version: 2.0.0
  */
 
 
