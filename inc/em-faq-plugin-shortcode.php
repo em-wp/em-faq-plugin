@@ -1,16 +1,23 @@
 <?php
 
-require_once 'em-faq-plugin-css.php';
-
-add_action('init', function () {
-  add_shortcode(shortcode_exists('faq') ? 'em-faq' : 'faq', 'em_faq_plugin_shortcode');
-});
-
+/**
+ * Adds shortcode that reads current post's metadata for FAQs.
+ * 
+ * @param array $atts
+ * Possible atts: design, background, text, answer-text
+ * @return HTML FAQ data formatted with HTML.
+ */
 function em_faq_plugin_shortcode($atts = []) {
+  // css
+  require_once 'em-faq-plugin-css.php';
+
+  // current post
   global $post;
 
+  // FAQ metadata
   $faqs = get_post_meta($post->ID, 'emfaqs', true);
 
+  // getting css
   switch ($atts['design'] ?? false) {
     case 2:
       $css = Faq_css::$two;
@@ -28,17 +35,19 @@ function em_faq_plugin_shortcode($atts = []) {
       $css = Faq_css::$one;
   }
 
-
-  // faq html
+  // FAQ html
   $faq_list = [];
 
-  // faq json (structured data)
+  // FAQ json (structured data)
   $faq_json = [];
 
-  /* Creating html and json */
+  // creating HTML & JSON
   foreach ($faqs as $faq) {
+
+    // both fields of FAQ needs to be not empty
     if (empty($faq['question']) || empty($faq['answer'])) continue;
 
+    // structured data
     $faq_json[] = [
       '@type' => 'Question',
       'name' => $faq['question'],
@@ -48,6 +57,7 @@ function em_faq_plugin_shortcode($atts = []) {
       ]
     ];
 
+    // html
     $faq_list[] = <<<HTML
                     <li class="em-faqs">
                       <details class="em-faqs">
@@ -58,20 +68,20 @@ function em_faq_plugin_shortcode($atts = []) {
                   HTML;
   }
 
+  // adds structured data and CSS to front-end
   add_action('wp_footer', function () use ($css, $faq_json) {
-    $json = json_encode($faq_json);
-    echo <<<OUT
-      <style data-name="em-faqs-plugin">
-        $css
-      </style>
-       <script type="application/ld+json">
+?>
+    <style data-name="em-faqs-plugin">
+      <?= $css ?>
+    </style>
+    <script data-name="em-faqs-plugin-sd" type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": $json
+        "mainEntity": <?= json_encode($faq_json) ?>
       }
-      </script>
-    OUT;
+    </script>
+<?php
   });
 
   return sprintf('<ul class="em-faqs">%s</ul>', implode('', $faq_list));

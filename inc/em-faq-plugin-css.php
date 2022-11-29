@@ -12,9 +12,11 @@ if (!class_exists('Faq_css')) {
       padding: 0;
       list-style: none;
     }
+
     li.em-faqs {
       margin-bottom: 20px;
     }
+
     summary.em-faqs {
       cursor: pointer;
     }

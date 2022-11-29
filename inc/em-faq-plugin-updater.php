@@ -25,7 +25,6 @@ if (!class_exists('mishaUpdateChecker')) {
 
       $remote = get_transient($this->cache_key);
       if (false === $remote || !$this->cache_allowed) {
-        // wp_die('<xmp>' . print_r($remote, true) . '</xmp>');
 
         $remote = wp_remote_get(
           'https://vqhoctafegnmqgeoevcn.supabase.co/storage/v1/object/public/wp-plugins/em-faq/info.json',
@@ -48,17 +47,14 @@ if (!class_exists('mishaUpdateChecker')) {
       }
 
       $remote = json_decode(wp_remote_retrieve_body($remote));
-      // wp_die('<xmp>' . print_r($remote, true) . '</xmp>');
       return $remote;
     }
 
 
     function info($res, $action, $args) {
-      // wp_die('<xmp>' . print_r('hi', true) . '</xmp>');
       // print_r( $action );
       // print_r( $args );
 
-      // wp_die('<xmp>' . print_r($args, true) . '</xmp>');
       // do nothing if you're not getting plugin information right now
       if ('plugin_information' !== $action) {
         return $res;
@@ -116,7 +112,6 @@ if (!class_exists('mishaUpdateChecker')) {
         && version_compare($remote->requires, get_bloginfo('version'), '<=')
         && version_compare($remote->requires_php, PHP_VERSION, '<')
       ) {
-        // wp_die('<xmp>' . print_r('hi', true) . '</xmp>');
         $res = new stdClass();
         $res->slug = $this->plugin_slug;
         $res->plugin = 'em-faq-plugin/em-faq-plugin.php'; // misha-update-plugin/misha-update-plugin.php
