@@ -2,11 +2,11 @@
 
 function em_faq_plugin_metabox() {
 
-  wp_enqueue_script('editor-js-config');
+  // wp_enqueue_script('editor-js-config');
 
   add_meta_box(
     'em-faq-plugin-new',
-    'FAQ new',
+    'FAQ',
     'em_faq_plugin_metabox_callback',
     null,
     'advanced',
