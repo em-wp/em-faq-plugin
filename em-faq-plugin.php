@@ -4,7 +4,7 @@
  * Plugin Name: FAQ by EM.
  * Description: Adds FAQ editor per page and shortcode to insert said FAQ on the page.
  * Author: Effektiv Markedsføring
- * Version: 2.0.1
+ * Version: 2.0.2
  */
 
 
@@ -27,7 +27,8 @@ function em_faq_plugin_init() {
   add_action('admin_enqueue_scripts', function ($page) {
 
     // off-ramp if page is not an edit page.
-    if ($page !== 'post.php') return;
+    // if ($page !== 'post.php') return;
+    if (!in_array($page, ['post.php', 'post-new.php'])) return;
 
     // adding javascript
     wp_enqueue_editor();
