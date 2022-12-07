@@ -17,6 +17,8 @@ function em_faq_plugin_shortcode($atts = []) {
   // FAQ metadata
   $faqs = get_post_meta($post->ID, 'emfaqs', true);
 
+  if (!$faqs) return;
+
   // getting css
   switch ($atts['design'] ?? false) {
     case 2:
@@ -67,6 +69,8 @@ function em_faq_plugin_shortcode($atts = []) {
                     </li>
                   HTML;
   }
+
+  // wp_die('<xmp>' . print_r(json_encode($faq_json), true) . '</xmp>');
 
   // adds structured data and CSS to front-end
   add_action('wp_footer', function () use ($css, $faq_json) {
